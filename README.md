@@ -13,7 +13,7 @@ $ npm install
 
 $ Create a .env file in the root directory
 $ Example .env.template 
-
+```
 
 ## Compile and run the project
 
