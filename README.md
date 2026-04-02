@@ -1,4 +1,4 @@
-# Product Microservice 
+# Product Microservice
 
 ## Project setup
 
@@ -6,13 +6,12 @@
 $ npm install
 ```
 
-
 ## Settings for building the project
 
 ```bash
 
 $ Create a .env file in the root directory
-$ Example .env.template 
+$ Example .env.template
 ```
 
 ## Compile and run the project
@@ -40,4 +39,3 @@ $ npm run test:e2e
 # test coverage
 $ npm run test:cov
 ```
-

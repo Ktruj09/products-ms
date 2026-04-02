@@ -1,8 +1,9 @@
-import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { PrismaService } from 'src/prisma.service';
 import { PaginationDto } from 'src/common';
+import { RpcException } from '@nestjs/microservices';
 
 @Injectable()
 export class ProductsService {
@@ -49,7 +50,10 @@ export class ProductsService {
     });
 
     if (!product) {
-      throw new NotFoundException(`Product with id ${id} not found`);
+      throw new RpcException({
+        status: HttpStatus.BAD_REQUEST,
+        message: `Product with id ${id} not found`,
+      });
     }
 
     return product;
@@ -58,7 +62,7 @@ export class ProductsService {
   async update(id: number, updateProductDto: UpdateProductDto) {
     const { id: _, ...data } = updateProductDto;
     await this.findOne(id);
-
+    console.log(typeof id);
     return this.prismaService.product.update({
       where: { id: id },
       data: data,

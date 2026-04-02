@@ -15,8 +15,8 @@ export class ProductsController {
   }
 
   @MessagePattern({ cmd: 'get-all-products' })
-  findAll(@Payload() PaginationDto: PaginationDto) {
-    return this.productsService.findAll(PaginationDto);
+  findAll(@Payload() paginationDto: PaginationDto) {
+    return this.productsService.findAll(paginationDto);
   }
 
   @MessagePattern({ cmd: 'get-one-product' })
@@ -26,7 +26,8 @@ export class ProductsController {
 
   @MessagePattern({ cmd: 'update-one-product' })
   update(@Payload() updateProductDto: UpdateProductDto) {
-    return this.productsService.update(updateProductDto.id, updateProductDto);
+    const id = updateProductDto.id;
+    return this.productsService.update(+id, updateProductDto);
   }
 
   @MessagePattern({ cmd: 'delete-one-product' })
