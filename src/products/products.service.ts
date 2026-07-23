@@ -9,7 +9,7 @@ import { RpcException } from '@nestjs/microservices';
 export class ProductsService {
   private readonly logger = new Logger('ProductoService');
 
-  constructor(private prismaService: PrismaService) {}
+  constructor(private prismaService: PrismaService) { }
 
   async create(createProductDto: CreateProductDto) {
     this.logger.log(`Create product `);
@@ -79,5 +79,26 @@ export class ProductsService {
     });
 
     return product;
+  }
+
+  async validateProducts(ids: number[]) {
+    ids = Array.from(new Set(ids));
+
+    const products = await this.prismaService.product.findMany({
+      where: {
+        id: {
+          in: ids
+        }
+      }
+    })
+
+    if (products.length !== ids.length) {
+      throw new RpcException({
+        message: 'Some products were not found',
+        status: HttpStatus.NOT_FOUND,
+      })
+    }
+
+    return products;
   }
 }
